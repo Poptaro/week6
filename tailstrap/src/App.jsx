@@ -102,7 +102,7 @@ export default function App() {
           <Form submit={submit} />
         </div>
 
-        <div className='flex flex-row items-center w-full h-full justify-center gap-6'>
+        <div className='flex flex-row items-center w-full h-full justify-center gap-6' id='champCards'>
           {
             master.map(champObj => {
               return (
