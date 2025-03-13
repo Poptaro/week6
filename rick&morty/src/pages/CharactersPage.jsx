@@ -8,7 +8,7 @@ export default function CharactersPage() {
 
 
   //20 characters MAX per page
-  const [characters, setCharacters] = useState([])
+  const [characters, setCharacters] = useState(null)
 
   let { page } = useParams()
   let navigate = useNavigate()
@@ -17,15 +17,16 @@ export default function CharactersPage() {
 
   useEffect(() => {
     async function fetchCharacters() {
-      const response = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`)
-      const data = await response.json()
-      return(data)
+      try {
+        const response = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`)
+        const data = await response.json()
+        setCharacters([...data.results])
+      } catch {
+        console.log("Error from useEffect")
+      }
     }
-    async function populateCharacters() {
-      const data = await fetchCharacters()
-      setCharacters([...data.results])
-    }
-    populateCharacters()
+
+    fetchCharacters()
   }, [page])
 
   function nextPage() {
@@ -34,9 +35,9 @@ export default function CharactersPage() {
   function previousPage() {
     navigate(`/characters/${currentPage - 1}`)
   }
-  // function specificCharacter(characterid) {
-  //   navigate()
-  // }
+  function specificCharacterNav(characterid) {
+    navigate(`/character/${characterid}`)
+  }
 
   return (
     <div className='flex flex-col bg-green-200'>
@@ -61,12 +62,13 @@ export default function CharactersPage() {
           characters
           ? characters.map(char => {
             return (
-              <div onClick={() => console.log('hi')}>
-                <CharacterCard char={char} key={char.id} />
+              <div onClick={() => specificCharacterNav(char.id)} key={char.id}>
+                <CharacterCard char={char} />
               </div>
             )
           })
-          : null
+          : <div>Cannot grab characters from api</div>
+          
         }
       </div>  
     </div>
