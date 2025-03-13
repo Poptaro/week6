@@ -1,4 +1,5 @@
-import React from 'react'
+
+
 
 export default function CharacterCard({ char }) {
   return (
@@ -7,6 +8,7 @@ export default function CharacterCard({ char }) {
       <div className='border-2 h-[50%] w-[95%] overflow-hidden rounded-xl flex-1'>
         <img src={char.image} alt="character name" />
       </div>
+      
 
       <div className='flex items-start h-full w-full flex-1 justify-center'>
         <div className='p-1 flex flex-col w-[80%]'>

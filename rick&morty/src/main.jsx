@@ -10,6 +10,7 @@ import AboutPage from './pages/AboutPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import CharactersPage from './pages/CharactersPage.jsx';
 import SpecificCharacterPage from './pages/SpecificCharacterPage.jsx';
+import FavoritesPage from './pages/FavoritesPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/character/:id",
         element: <SpecificCharacterPage />
+      },
+      {
+        path: "/favorite-characters",
+        element: <FavoritesPage />
       },
       {
         path: "*",

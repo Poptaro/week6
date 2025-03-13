@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
 
 import CharacterCard from '../components/CharacterCard'
 
 export default function CharactersPage() {
 
-
+  const { favorites, addUnaddFavorites } = useOutletContext()
+  
   //20 characters MAX per page
   const [characters, setCharacters] = useState(null)
 
@@ -62,8 +64,11 @@ export default function CharactersPage() {
           characters
           ? characters.map(char => {
             return (
-              <div onClick={() => specificCharacterNav(char.id)} key={char.id}>
-                <CharacterCard char={char} />
+              <div key={char.id} className="relative">
+                <div onClick={() => specificCharacterNav(char.id)}>
+                  <CharacterCard char={char}/>
+                </div>
+                <button onClick={() => {addUnaddFavorites(char)}} className="top-2 right-2 border-2 bg-red-400 absolute rounded-md">Fav/Unfav</button>
               </div>
             )
           })

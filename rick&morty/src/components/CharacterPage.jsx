@@ -4,8 +4,8 @@ export default function CharacterPage({ char }) {
   return (
     <div className='relative border-2 h-148 w-[65%] bg-green-500 rounded-xl flex flex-col items-center justify-between py-1'>
 
-      <div className='border-2 w-[40%] overflow-hidden rounded-xl flex-1'>
-        <img src={char.image} alt="character name" className='h-full' />
+      <div className='border-2 w-64 overflow-hidden rounded-xl flex-1'>
+        <img src={char.image} alt="character name" className='object-cover h-full w-full' />
       </div>
 
       <div className='flex items-start h-full w-full flex-1 justify-center'>
