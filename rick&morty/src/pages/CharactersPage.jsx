@@ -7,7 +7,7 @@ import CharacterCard from '../components/CharacterCard'
 
 export default function CharactersPage() {
 
-  const { favorites, addUnaddFavorites } = useOutletContext()
+  const { addUnaddFavorites } = useOutletContext()
   
   //20 characters MAX per page
   const [characters, setCharacters] = useState(null)
