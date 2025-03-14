@@ -4,38 +4,63 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useOutletContext } from 'react-router-dom'
 
 import CharacterCard from '../components/CharacterCard'
+import FavoriteUnfavoriteButton from '../components/FavoriteUnfavoriteButton'
 
 export default function CharactersPage() {
 
+
   const { addUnaddFavorites } = useOutletContext()
-  
+  const { name } = useParams()
+
   //20 characters MAX per page
   const [characters, setCharacters] = useState(null)
+  //CHECKPOINT
+  const [currentUrl, setCurrentUrl] = useState(null)
+  const [nextPage, setNextPage] = useState(null)
+  const [prevPage, setPrevPage] = useState(null)
+  
 
-  let { page } = useParams()
+
+  // let { page } = useParams()
   let navigate = useNavigate()
 
-  let currentPage = Number(page)
 
   useEffect(() => {
+    if (name) {
+      setCurrentUrl(`https://rickandmortyapi.com/api/character/?name=${name}`);
+    } else {
+      setCurrentUrl(`https://rickandmortyapi.com/api/character/`)
+    }
+  }, [name]);
+
+  useEffect(() => {
+
     async function fetchCharacters() {
       try {
-        const response = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`)
+        const response = await fetch(currentUrl)
         const data = await response.json()
+        //find next or prev pages on api
+        data.info.next ? setNextPage(data.info.next) : setNextPage(null)
+        data.info.prev ? setPrevPage(data.info.prev) : setPrevPage(null)
+
         setCharacters([...data.results])
-      } catch {
-        console.log("Error from useEffect")
+      } catch (error) {
+        console.log("Error from useEffect", error)
       }
     }
 
     fetchCharacters()
-  }, [page])
+  }, [currentUrl])
 
-  function nextPage() {
-    navigate(`/characters/${currentPage + 1}`)
+  function nextPageFunction() {
+    if(nextPage) {
+      setCurrentUrl(nextPage)
+    }
   }
-  function previousPage() {
-    navigate(`/characters/${currentPage - 1}`)
+  function prevPageFunction() {
+    if(prevPage) {
+      setCurrentUrl(prevPage)
+    }
   }
   function specificCharacterNav(characterid) {
     navigate(`/character/${characterid}`)
@@ -47,13 +72,13 @@ export default function CharactersPage() {
         <p className='text-3xl'>Characters Page</p>
         <div className='flex gap-2'>
           {
-            currentPage > 1
-            ? <button onClick={previousPage} className='rounded-md p-1 bg-green-300 hover:bg-green-400 active:bg-green-600'>Previous Page</button>
+            prevPage
+            ? <button onClick={prevPageFunction} className='rounded-md p-1 bg-green-300 hover:bg-green-400 active:bg-green-600'>Previous Page</button>
             : <button className='disabled text-gray-500 bg-gray-300 rounded-md p-1'>Previous Page</button>
           }
           {
-            currentPage < 42
-            ? <button onClick={nextPage} className='rounded-md p-1 bg-green-300 hover:bg-green-400 active:bg-green-600'>Next Page</button>
+            nextPage
+            ? <button onClick={nextPageFunction} className='rounded-md p-1 bg-green-300 hover:bg-green-400 active:bg-green-600'>Next Page</button>
             : <button className='disabled text-gray-700 bg-gray-300 rounded-md p-1'>Next Page</button>
           }
         </div>
@@ -68,7 +93,7 @@ export default function CharactersPage() {
                 <div onClick={() => specificCharacterNav(char.id)}>
                   <CharacterCard char={char}/>
                 </div>
-                <button onClick={() => {addUnaddFavorites(char)}} className="top-2 right-2 border-2 bg-red-400 absolute rounded-md">Fav/Unfav</button>
+                <FavoriteUnfavoriteButton onClickFunction={() => {addUnaddFavorites(char)}} className="top-2 right-2 border-2 bg-red-400 absolute rounded-md">Fav/Unfav</FavoriteUnfavoriteButton>
               </div>
             )
           })

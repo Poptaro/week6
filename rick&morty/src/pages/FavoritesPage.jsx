@@ -2,6 +2,7 @@ import { useOutletContext, useNavigate } from "react-router-dom"
 
 
 import CharacterCard from '../components/CharacterCard.jsx'
+import FavoriteUnfavoriteButton from "../components/FavoriteUnfavoriteButton.jsx"
 
 
 
@@ -14,8 +15,6 @@ export default function FavoritesPage() {
     navigate(`/character/${characterid}`)
   }
 
-
-  console.log(favorites)
   return (
        <div className='flex flex-col bg-green-200'>
           <div className='flex justify-between m-4'>
@@ -31,7 +30,7 @@ export default function FavoritesPage() {
                     <div onClick={() => specificCharacterNav(char.id)}>
                       <CharacterCard char={char}/>
                     </div>
-                    <button onClick={() => {addUnaddFavorites(char)}} className="top-2 right-2 border-2 bg-red-400 absolute rounded-md">Fav/Unfav</button>
+                    <FavoriteUnfavoriteButton onClickFunction={() => {addUnaddFavorites(char)}} className="top-2 right-2 border-2 bg-red-400 absolute rounded-md">Fav/Unfav</FavoriteUnfavoriteButton>
                   </div>
                 )
               })

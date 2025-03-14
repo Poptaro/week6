@@ -27,8 +27,14 @@ const router = createBrowserRouter([
         element: <AboutPage /> 
       },
       {
-        path: "/characters/:page",
-        element: <CharactersPage />
+        path: "/characters",
+        element: <CharactersPage purpose={ 'main' }/>,
+        children: [
+          {
+            path: ":name",
+            element: <CharactersPage purpose={ 'search' }/>
+          }
+        ]
       },
       {
         path: "/character/:id",
@@ -38,6 +44,10 @@ const router = createBrowserRouter([
         path: "/favorite-characters",
         element: <FavoritesPage />
       },
+      // {
+      //   path: "/results/:name",
+      //   element: <CharactersPage purpose={ `https://rickandmortyapi.com/api/character` }/>
+      // },
       {
         path: "*",
         element: <NotFoundPage />
