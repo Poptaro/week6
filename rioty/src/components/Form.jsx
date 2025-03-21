@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 
-export default function Form({ submit }) {
+export default function Form({ submit, loading }) {
   const [username, setUsername] = useState('Rokusho')
   const [tag, setTag] = useState('Kana')
 
@@ -32,7 +32,7 @@ export default function Form({ submit }) {
           placeholder='Tag'
           className='border-2 rounded-sm w-[25%] px-2 placeholder:text-xl'
         />
-        <button className='border-2 !rounded-md bg-green-200 mx-2 w-[30%]'>Submit</button>
+        <button className={`border-2 !rounded-md bg-green-200 mx-2 w-[30%]`} disabled={loading?true:false}>Submit</button>
       </form>
     </>
   )
